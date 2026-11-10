@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- Fragmentos reutilizables: cada página los incluye con th:replace -->
+<head th:fragment="cabeza(titulo)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${titulo} + ' · Biblioteca IPSS'">Biblioteca IPSS</title>
+  <link rel="stylesheet" th:href="@{/web.css}">
+</head>
+<body>
+<header class="barra" th:fragment="menu(socioId)">
+  <span class="marca">📚 Biblioteca IPSS <small>(vista Thymeleaf)</small></span>
+  <nav>
+    <a th:href="@{/web/libros(socioId=${socioId})}">Catálogo</a>
+    <a th:href="@{/web/prestamos(socioId=${socioId})}">Mis préstamos</a>
+  </nav>
+</header>
+</body>
+</html>

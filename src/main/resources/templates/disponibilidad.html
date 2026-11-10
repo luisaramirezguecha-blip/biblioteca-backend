@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: cabeza('Disponibilidad')}"></head>
+<body>
+<header th:replace="~{fragments :: menu(${socioId})}"></header>
+<main>
+  <h1>Disponibilidad</h1>
+  <h2 th:text="${d.titulo}">Título</h2>
+
+  <p>
+    Copias libres: <strong th:text="${d.ejemplaresDisponibles} + ' de ' + ${d.ejemplaresTotales}">1 de 2</strong>
+  </p>
+  <p class="aviso exito" th:if="${d.disponible}">Puedes pedirlo ahora.</p>
+  <p class="aviso error" th:unless="${d.disponible}">
+    Todas las copias están prestadas.
+    <span th:if="${d.proximaDevolucion != null}"
+          th:text="'La próxima vence el ' + ${#temporals.format(d.proximaDevolucion, 'dd-MM-yyyy')} + '.'"></span>
+  </p>
+
+  <a th:href="@{/web/libros(socioId=${socioId})}">← Volver al catálogo</a>
+</main>
+</body>
+</html>

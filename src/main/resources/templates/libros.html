@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: cabeza('Catálogo')}"></head>
+<body>
+<header th:replace="~{fragments :: menu(${socioId})}"></header>
+<main>
+  <h1>Catálogo</h1>
+
+  <!-- mensajes que deja el controller con addFlashAttribute -->
+  <p class="aviso exito" th:if="${exito}" th:text="${exito}"></p>
+  <p class="aviso error" th:if="${error}" th:text="${error}"></p>
+
+  <form class="buscador" method="get" th:action="@{/web/libros}">
+    <input type="search" name="q" th:value="${q}" placeholder="Buscar por título, autor, ISBN o categoría…">
+    <label>Socio
+      <select name="socioId">
+        <option th:each="s : ${socios}" th:value="${s.id}" th:text="${s.nombre}" th:selected="${s.id == socioId}"></option>
+      </select>
+    </label>
+    <label><input type="checkbox" name="soloDisponibles" value="true" th:checked="${soloDisponibles}"> Solo disponibles</label>
+    <button type="submit">Buscar</button>
+  </form>
+
+  <p class="sub"><span th:text="${#lists.size(libros)}">0</span> libros encontrados</p>
+
+  <table>
+    <thead>
+      <tr><th>Título</th><th>Autor</th><th>Categoría</th><th>Disponibilidad</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      <tr th:each="libro : ${libros}">
+        <td><strong th:text="${libro.titulo}">Título</strong><br><small th:text="'ISBN ' + ${libro.isbn}">ISBN</small></td>
+        <td th:text="${libro.autor} + ' · ' + ${libro.anioPublicacion}">Autor</td>
+        <td th:text="${libro.categoria}">Categoría</td>
+        <td>
+          <span class="chip ok" th:if="${libro.disponible}"
+                th:text="${libro.ejemplaresDisponibles} + ' de ' + ${libro.ejemplaresTotales} + ' disponibles'"></span>
+          <span class="chip alerta" th:unless="${libro.disponible}"
+                th:text="'Agotado · 0 de ' + ${libro.ejemplaresTotales}"></span>
+        </td>
+        <td class="acciones">
+          <a th:href="@{/web/libros/{id}/disponibilidad(id=${libro.id}, socioId=${socioId})}">Ver disponibilidad</a>
+          <form method="post" th:action="@{/web/prestamos}">
+            <input type="hidden" name="libroId" th:value="${libro.id}">
+            <input type="hidden" name="socioId" th:value="${socioId}">
+            <button type="submit" th:disabled="${!libro.disponible}">Prestar</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(libros)}"><td colspan="5" class="vacia">No hay libros que coincidan con la búsqueda</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

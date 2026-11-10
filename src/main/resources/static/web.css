@@ -1,0 +1,34 @@
+/* Estilos de la vista Thymeleaf (opcional). La interfaz definitiva es Angular. */
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f5f1e8; color: #2a2a26; line-height: 1.5; }
+.barra { background: #1f3a34; color: #f5f1e8; padding: .7rem 1rem; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; align-items: center; }
+.barra .marca { font-weight: 700; font-size: 1.1rem; }
+.barra small { font-weight: 400; opacity: .7; }
+.barra nav { display: flex; gap: 1rem; }
+.barra a { color: #cfe3dc; text-decoration: none; font-weight: 600; }
+.barra a:hover { text-decoration: underline; }
+main { max-width: 72rem; margin: 0 auto; padding: 1.25rem 1rem; }
+h1 { margin: 0 0 1rem; font-size: 1.6rem; }
+h2 { margin: 1.4rem 0 .6rem; font-size: 1.05rem; color: #6b6558; }
+.sub { color: #6b6558; font-size: .9rem; }
+.contador { color: #1f6f5c; font-weight: 800; }
+
+.buscador { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1rem; }
+.buscador input[type=search] { flex: 1 1 18rem; }
+input, select, button { font: inherit; padding: .45rem .7rem; border-radius: .5rem; border: 1px solid #e0d9c6; background: #fff; }
+button { background: #1f6f5c; border-color: #1f6f5c; color: #fff; font-weight: 600; cursor: pointer; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+table { width: 100%; border-collapse: collapse; background: #fffdf8; border: 1px solid #e0d9c6; border-radius: .6rem; overflow: hidden; }
+th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid #e0d9c6; vertical-align: top; }
+th { background: #efe9da; font-size: .85rem; }
+tr.vencido { background: #fff7f5; }
+.acciones { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.acciones form { margin: 0; }
+.vacia { text-align: center; color: #6b6558; padding: 1.2rem; }
+
+.chip { display: inline-block; padding: .1rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 700; }
+.chip.ok { background: #dcf3e4; color: #14532d; }
+.chip.alerta { background: #fde2e0; color: #8a1c14; }
+.aviso { padding: .55rem .85rem; border-radius: .6rem; font-size: .9rem; margin: 0 0 .8rem; }
+.aviso.exito { background: #dcf3e4; color: #14532d; }
+.aviso.error { background: #fde2e0; color: #8a1c14; }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: cabeza('Mis préstamos')}"></head>
+<body>
+<header th:replace="~{fragments :: menu(${socioId})}"></header>
+<main>
+  <h1>Mis préstamos</h1>
+
+  <p class="aviso exito" th:if="${exito}" th:text="${exito}"></p>
+  <p class="aviso error" th:if="${error}" th:text="${error}"></p>
+
+  <form class="buscador" method="get" th:action="@{/web/prestamos}">
+    <label>Socio
+      <select name="socioId" onchange="this.form.submit()">
+        <option th:each="s : ${socios}" th:value="${s.id}" th:text="${s.nombre}" th:selected="${s.id == socioId}"></option>
+      </select>
+    </label>
+    <noscript><button type="submit">Ver</button></noscript>
+  </form>
+
+  <h2>En préstamo <span class="contador" th:text="${#lists.size(activos)} + ' / 3'">0 / 3</span></h2>
+  <p class="aviso error" th:if="${#lists.size(activos) >= 3}">Límite alcanzado: devuelve un libro antes de pedir otro.</p>
+  <table>
+    <thead><tr><th>Libro</th><th>Prestado</th><th>Vence</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="p : ${activos}" th:classappend="${p.vencido} ? 'vencido'">
+        <td th:text="${p.tituloLibro}">Libro</td>
+        <td th:text="${#temporals.format(p.fechaPrestamo, 'dd-MM-yyyy')}">01-01-2026</td>
+        <td th:text="${#temporals.format(p.fechaVencimiento, 'dd-MM-yyyy')}">15-01-2026</td>
+        <td>
+          <span class="chip alerta" th:if="${p.vencido}">Vencido</span>
+          <span class="chip ok" th:unless="${p.vencido}">En préstamo</span>
+        </td>
+        <td class="acciones">
+          <form method="post" th:action="@{/web/prestamos/{id}/devolucion(id=${p.id})}">
+            <input type="hidden" name="socioId" th:value="${socioId}">
+            <button type="submit">Devolver</button>
+          </form>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(activos)}"><td colspan="5" class="vacia">No tienes libros en préstamo</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Historial <span class="contador" th:text="${#lists.size(historial)}">0</span></h2>
+  <table>
+    <thead><tr><th>Libro</th><th>Prestado</th><th>Devuelto</th></tr></thead>
+    <tbody>
+      <tr th:each="p : ${historial}">
+        <td th:text="${p.tituloLibro}">Libro</td>
+        <td th:text="${#temporals.format(p.fechaPrestamo, 'dd-MM-yyyy')}">01-01-2026</td>
+        <td th:text="${#temporals.format(p.fechaDevolucion, 'dd-MM-yyyy')}">10-01-2026</td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(historial)}"><td colspan="3" class="vacia">Aún no hay devoluciones</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
